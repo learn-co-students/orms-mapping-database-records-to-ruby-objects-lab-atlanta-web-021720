@@ -58,23 +58,35 @@ class Student
   end
 
   def first_X_students_in_grade_10(number)
-    # sql = <<-SQL
-    # SELECT * FROM students WHERE grade = 10 ORDER BY students.id LIMIT ?
-    # SQL
+    sql = <<-SQL
+    SELECT * FROM students WHERE grade = 10 ORDER BY students.id LIMIT ?
+    SQL
 
-    # DB[:conn].execute(sql, number).map do |row|
-    #   Student.new_from_db(row)
-    # end.first(number)  
+    DB[:conn].execute(sql, number).map do |row|
+      Student.new_from_db(row)
+    end.first(number)  
   end
 
   def first_student_in_grade_10
+    # sql = <<-SQL
+    # SELECT * FROM students where grade = 10 ORDER BY students.id LIMIT 1
+    # SQL
+
+    # DB[:conn].execute(sql).map do |row|
+    #   Student.new_from_db(row)
+    # end
+
     sql = <<-SQL
-    SELECT * FROM students where grade = 10 ORDER BY students.id LIMIT 1
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    ORDER BY students.id LIMIT 1
     SQL
 
     DB[:conn].execute(sql).map do |row|
-      Student.new_from_db(row)
-    end
+      self.new_from_db(row)
+    end.first
+    
   end
   
   def all_students_in_grade_X(grade)
